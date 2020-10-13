@@ -1,0 +1,15 @@
+{
+  "Configuration": {
+    "ActiveNet": "testnet",
+    "Magic": 2018111,
+    "HttpRestStart": true,
+    "EnableRPC": true,
+    "RpcConfiguration": {
+      "User": "",
+      "Pass": "",
+      "WhiteIPList": [
+        "0.0.0.0"
+      ]
+    }
+  }
+}

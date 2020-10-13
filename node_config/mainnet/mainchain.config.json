@@ -1,0 +1,14 @@
+{
+  "Configuration": {
+    "ActiveNet": "mainnet",
+    "HttpRestStart": true,
+    "EnableRPC": true,
+    "RpcConfiguration": {
+      "User": "",
+      "Pass": "",
+      "WhiteIPList": [
+        "0.0.0.0"
+      ]
+    }
+  }
+}
