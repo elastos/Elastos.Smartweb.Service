@@ -44,9 +44,9 @@ http://localhost:5000/node/testnet/eth
 ```
 
 ## Verify
-If you run the did node for mainnet, you can do the following to check whether it's working:
+If you run the did node for testnet, you can do the following to check whether it's working:
 ```
-curl -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"method":"getcurrentheight"}' localhost:5000/mainnet/did
+curl -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"method":"getcurrentheight"}' localhost:5000/testnet/did
 ```
 
 ## How to build the binary yourself
