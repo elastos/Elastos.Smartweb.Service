@@ -9,6 +9,7 @@ import (
 func rProxyHandler(p *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		log.Println(r.URL)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("X-GoProxy", "GoProxy")
 		p.ServeHTTP(w, r)
 	}

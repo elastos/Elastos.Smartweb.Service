@@ -46,7 +46,12 @@ http://localhost:5000/node/testnet/eth
 ## Verify
 If you run the did node for testnet, you can do the following to check whether it's working:
 ```
+# Mainchain API
+curl -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"method":"getcurrentheight"}' localhost:5000/testnet/mainchain
+# DID Sidechain API
 curl -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"method":"getcurrentheight"}' localhost:5000/testnet/did
+# ETH Sidechain API
+curl -H 'Content-Type: application/json' -H 'Accept:application/json' --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' localhost:5000/testnet/eth
 ```
 
 ## How to build the binary yourself

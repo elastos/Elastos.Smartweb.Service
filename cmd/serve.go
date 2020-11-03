@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/cyber-republic/develap/cmd/serve"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"time"
@@ -15,38 +16,36 @@ var serveCmd = &cobra.Command{
 	Short: "Setup route to different node containers",
 	Long:  `Setup route to different node containers`,
 	Run: func(c *cobra.Command, args []string) {
-		var httpSrv *http.Server
-
-		mux := &http.ServeMux{}
+		router := mux.NewRouter()
 
 		// Default route
-		mux.HandleFunc("/", serve.HandleIndex)
+		router.HandleFunc("/", serve.HandleIndex)
 
 		// Node routes
-		serve.HandleNodeEndpoints(mux)
+		serve.HandleNodeEndpoints(router)
 
 		// Status routes
-		mux.HandleFunc("/status/nodes", serve.HandleStatusAllNodesEndpoint)
-		mux.HandleFunc("/status/nodes/running", serve.HandleStatusRunningNodesEndpoint)
-		mux.HandleFunc("/status/nodes/stopped", serve.HandleStatusStoppedNodesEndpoint)
+		router.HandleFunc("/status/nodes", serve.HandleStatusAllNodesEndpoint)
+		router.HandleFunc("/status/nodes/running", serve.HandleStatusRunningNodesEndpoint)
+		router.HandleFunc("/status/nodes/stopped", serve.HandleStatusStoppedNodesEndpoint)
+
+		// Handle CORS
+		router.Use(mux.CORSMethodMiddleware(router))
 
 		// set timeouts so that a slow or malicious client doesn't
 		// hold resources forever
-		httpSrv = &http.Server{
+		httpSrv := &http.Server{
 			ReadTimeout:  10 * time.Second,
 			WriteTimeout: 10 * time.Second,
 			IdleTimeout:  120 * time.Second,
-			Handler:      mux,
+			Handler:      router,
+			Addr:	":5000",
 		}
-		httpSrv.Addr = ":5000"
 
 		// Launch HTTP server
 		log.Println("Starting server http://localhost:5000")
 
-		err := httpSrv.ListenAndServe()
-		if err != nil {
-			log.Fatalf("httpSrv.ListenAndServe() failed with %s", err)
-		}
+		log.Fatal(httpSrv.ListenAndServe())
 	},
 }
 

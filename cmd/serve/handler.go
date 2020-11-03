@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/cyber-republic/develap/cmd/node"
+	"github.com/gorilla/mux"
 	"io"
 	"net/http"
 	"net/http/httputil"
@@ -24,10 +25,11 @@ type BasicContainerInfo struct {
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	io.WriteString(w, htmlIndex)
 }
 
-func HandleNodeEndpoints(mux *http.ServeMux) {
+func HandleNodeEndpoints(router *mux.Router) {
 	containers := node.GetRunningContainersList()
 	for _, container := range containers {
 		for _, containerName := range container.Names {
@@ -45,7 +47,7 @@ func HandleNodeEndpoints(mux *http.ServeMux) {
 						localURL := fmt.Sprintf("/%s/%s", strings.Split(containerName, "-")[1], nodeType)
 
 						proxy := httputil.NewSingleHostReverseProxy(remoteURL)
-						mux.HandleFunc(localURL, rProxyHandler(proxy))
+						router.HandleFunc(localURL, rProxyHandler(proxy))
 					}
 				}
 				break
@@ -55,6 +57,7 @@ func HandleNodeEndpoints(mux *http.ServeMux) {
 }
 
 func HandleStatusAllNodesEndpoint(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	runningNodes := node.GetRunningContainerInfo()
 
@@ -94,12 +97,14 @@ func HandleStatusAllNodesEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleStatusRunningNodesEndpoint(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	runningNodes := node.GetRunningContainerInfo()
 	json.NewEncoder(w).Encode(runningNodes)
 }
 
 func HandleStatusStoppedNodesEndpoint(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	runningNodes := node.GetRunningContainerInfo()
 
