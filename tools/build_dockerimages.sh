@@ -64,5 +64,5 @@ then
 fi
 if [ "${DOCKER_IMAGE_TO_BUILD}" == "eth-sidechain" ] || [ "${DOCKER_IMAGE_TO_BUILD}" == "all" ]
 then 
-    build_docker_image "github.com/elastos/Elastos.ELA.SideChain.ETH" "v0.1.0" "eth-sidechain" "v0.1.0"
+    build_docker_image "github.com/elastos/Elastos.ELA.SideChain.ETH" "v0.1.2" "eth-sidechain" "v0.1.2"
 fi

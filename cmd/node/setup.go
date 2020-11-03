@@ -40,7 +40,7 @@ var (
 			},
 		},
 		"eth": {
-			ImageName: "cyberrepublic/ela-eth-sidechain:v0.1.0",
+			ImageName: "cyberrepublic/ela-eth-sidechain:v0.1.2",
 			DataPath:  "/elastos/elastos_eth",
 			PortMapping: map[string]DockerPort{
 				MainNet: {ContainerPort: "20636", HostPort: system.GetRandomPort()},
